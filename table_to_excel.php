@@ -10,7 +10,7 @@ header('Cache-Control: max-age=0');
 $_HallId = 6;
 
 // db link
-include_once("db.php");
+include_once("class/DbAccess.php");
 
 // TableExcelExport class
 include_once('class/TableExcelExport.php');
