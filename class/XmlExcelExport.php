@@ -152,7 +152,13 @@ class XmlExcelExport
 
 }
 
-// 解決發出的文件名稱中文亂碼的問題
+/**
+ * 解決發出的文件名稱中文亂碼的問題
+ * @param        $serverPath
+ * @param        $filename
+ * @param string $charset
+ * @param string $mimeType
+ */
 function sendFile($serverPath, $filename, $charset = 'UTF-8', $mimeType = 'application/octet-stream')
 {
     // 文件名亂碼問題
