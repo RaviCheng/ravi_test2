@@ -7,13 +7,13 @@ class XmlExcelExport
 {
 
     /**
-     * 文檔頭標籤
+     * xml文檔頭標籤
      * @var string
      */
     private $header = "<?xml version=\"1.0\" encoding=\"%s\"?\>\n<Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:x =\"urn:schemas-microsoft-com:office:excel\" xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:html=\"http://www.w3.org /TR/REC-html40\">";
 
     /**
-     * 文檔尾標籤
+     * xml文檔尾標籤
      * @var string
      */
     private $footer = "</Workbook>";
