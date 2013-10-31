@@ -17,6 +17,9 @@ class DbAccess
         self::dbAccess();
     }
 
+    /**
+     * 開啟db連線
+     */
     private function dbAccess()
     {
         $this->_dbConn = mysql_connect(DB_HOST, DB_USER, DB_PASSWD) or die ("MySQL Connect Error");
@@ -24,11 +27,19 @@ class DbAccess
         mysql_select_db(DB_NAME, $this->_dbConn) or die ("MySQL Select DB Error");
     }
 
+    /**
+     * 關閉db連線
+     */
     public function dbClose()
     {
         mysql_close($this->_dbConn) or die ("MySQL close Error");;
     }
 
+    /**
+     * 執行執行sql query語句
+     * @param $sql
+     * @return resource
+     */
     public function query($sql)
     {
         $this->detach();
@@ -36,6 +47,9 @@ class DbAccess
         return $this->_queryResource;
     }
 
+    /**
+     * 清除清除query內存
+     */
     private function detach()
     {
         $this->_queryResource = null;
