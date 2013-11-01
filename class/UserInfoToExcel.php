@@ -8,7 +8,7 @@ class UserInfoToExcel
     protected $_HallId = 6;
     protected $_db;
 
-    function __construct()
+    public function __construct()
     {
         $this->_db = new DbAccess();
     }
@@ -16,7 +16,7 @@ class UserInfoToExcel
     /**
      * 輸出xml格式的excel檔
      */
-    function CreateXmlToExcel()
+    public function CreateXmlToExcel()
     {
         $objPHPExcel = new XmlExcelExport();
 
@@ -88,16 +88,14 @@ class UserInfoToExcel
                 LEFT JOIN `TransferUserLevelList` AS `L` ON `M`.`ID` = `L`.`UserId`
                     WHERE `M`.`HALLID` = '{$this->_HallId}' AND `M`.`Id` NOT IN (SELECT `UserId` FROM `TransferUserLevelList` WHERE `LevelId` > 0)
                  ORDER BY `M`.`USERNAME`
-                 LIMIT 10
-                   ";
+                ";
         } else {
             $sql = "SELECT `M`.`Id` AS `UserId` , `M`.`USERNAME` AS `USERNAME`
                       FROM `MEMBERS_Durian` AS `M`
                  LEFT JOIN `TransferUserLevelList` AS `L` ON `M`.`ID` = `L`.`UserId`
                      WHERE `M`.`HALLID` = '{$this->_HallId}' AND `L`.`LevelId` = '{$LevelId}'
                   ORDER BY `M`.`USERNAME`
-                   LIMIT 10
-                  ";
+                 ";
         }
 
         $this->_db->query($sql);
@@ -113,7 +111,11 @@ class UserInfoToExcel
              );
         */
         while ($row = $this->_db->fetchArray()) {
-            array_push($UserInfo, array($row['USERNAME']));
+            array_push(
+                $UserInfo,
+                array(preg_match('/^[0-9]*$/', $row['USERNAME']) ? '*'.($row['USERNAME']) : $row['USERNAME'])
+            );
+
         }
 
         return $UserInfo;
