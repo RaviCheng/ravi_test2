@@ -40,6 +40,7 @@ class XmlExcelExport
      */
     private $dWorksheetCount = 0;
 
+
     /**
      * 構造函數
      * 使用類型轉換時要確保:頁碼和郵編號以'0'開頭
@@ -150,7 +151,28 @@ class XmlExcelExport
             $v = htmlentities($v, ENT_COMPAT, $this->sEncoding);
             $cells .= "<Cell><Data ss:Type=\"$type\">".$v."</Data></Cell>";
         }
+
         return "<Row>".$cells."</Row>\n";
+    }
+
+    /**
+     *  設定excel文件屬性
+     *
+     * @param $prop array 屬性陣列
+     */
+    function setDocProp($prop)
+    {
+        if (count($prop) > 0) {
+            $propTag = '<DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">';
+
+            foreach ($prop as $key => $val) {
+                $propTag .= '<'.$key.'>'.$val.'</'.$key.'>';
+            }
+
+            $propTag .= '</DocumentProperties>';
+
+            echo $propTag;
+        }
     }
 
 }

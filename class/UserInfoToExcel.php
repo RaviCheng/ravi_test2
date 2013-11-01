@@ -18,10 +18,25 @@ class UserInfoToExcel
      */
     public function CreateXmlToExcel()
     {
+        // excel文件屬性設定
+        $excelProp = array(
+            'Author'     => 'TestA',
+            'Company'    => 'TestExcel',
+            'Created'    => date("Y-m-d H:i:s"),
+            'Keywords'   => 'TestExcel',
+            'LastAuthor' => 'TestB',
+            'Version'    => '1.0.0'
+        );
+
+
+
         $objPHPExcel = new XmlExcelExport();
 
         // xml標頭and檔名
         $objPHPExcel->generateXMLHeader(date('YmdHis'));
+
+        // 給予文件屬性
+        $objPHPExcel->setDocProp($excelProp);
 
         // 所有分層id
         $LevelId = $this->GetLevelId();
@@ -61,12 +76,9 @@ class UserInfoToExcel
         $LevelInfo = array();
 
         while ($row = $this->_db->fetchArray()) {
-            array_push(
-                $LevelInfo,
-                array(
-                    'LevelId' => $row['LevelId'],
-                    'Script'  => $row['Script']
-                )
+            $LevelInfo[] = array(
+                'LevelId' => $row['LevelId'],
+                'Script'  => $row['Script']
             );
         }
 
@@ -111,11 +123,9 @@ class UserInfoToExcel
              );
         */
         while ($row = $this->_db->fetchArray()) {
-            array_push(
-                $UserInfo,
-                array(preg_match('/^[0-9]*$/', $row['USERNAME']) ? '*'.($row['USERNAME']) : $row['USERNAME'])
+            $UserInfo[] = array(
+                preg_match('/^[0-9]*$/', $row['USERNAME']) ? '*'.($row['USERNAME']) : $row['USERNAME']
             );
-
         }
 
         return $UserInfo;
