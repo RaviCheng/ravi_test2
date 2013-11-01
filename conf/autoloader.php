@@ -9,15 +9,9 @@ include_once('config.php');
 
 // 目前專案所需要的 include_path
 $include_path[] = APP_REAL_PATH.'/class';
-$include_path[] = APP_REAL_PATH.'/PHPExcelClasses';
-
+//$include_path[] = APP_REAL_PATH.'/PHPExcelClasses';
 
 set_include_path(join(PATH_SEPARATOR, $include_path));
-
-//function __autoload($class_name)
-//{
-//    require_once ($class_name).'.php';
-//}
 
 function __autoload($className)
 {

@@ -8,12 +8,15 @@ class XmlExcelExport
 
     /**
      * xml文檔頭標籤
+     *
      * @var string
      */
-    private $header = "<?xml version=\"1.0\" encoding=\"%s\"?\>\n<Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:x =\"urn:schemas-microsoft-com:office:excel\" xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:html=\"http://www.w3.org /TR/REC-html40\">";
+    private $header = "<?xml version=\"1.0\" encoding=\"%s\"?\>\n<?mso-application progid=\"Excel.Sheet\"?>\n<Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:x =\"urn:schemas-microsoft-com:office:excel\" xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:html=\"http://www.w3.org/TR/REC-html40\">";
+
 
     /**
      * xml文檔尾標籤
+     *
      * @var string
      */
     private $footer = "</Workbook>";
@@ -151,56 +154,3 @@ class XmlExcelExport
     }
 
 }
-
-/**
- * 解決發出的文件名稱中文亂碼的問題
- * @param        $serverPath
- * @param        $filename
- * @param string $charset
- * @param string $mimeType
- */
-function sendFile($serverPath, $filename, $charset = 'UTF-8', $mimeType = 'application/octet-stream')
-{
-    // 文件名亂碼問題
-    if (preg_match("/MSIE/", $_SERVER ["HTTP_USER_AGENT"])) {
-        $filename         = urlencode($filename);
-        $filename         = str_replace("+", "%20", $filename); //替換空格
-        $attachmentHeader = "Content-Disposition: attachment; filename=\"{$filename}\"; charset={$charset}";
-    } else {
-        if (preg_match("/Firefox/", $_SERVER ["HTTP_USER_AGENT"])) {
-            $attachmentHeader = 'Content-Disposition: attachment; filename*="utf8\'\''.$filename.'"';
-        } else {
-            $attachmentHeader = "Content-Disposition: attachment; filename=\"{$filename}\"; charset={$charset}";
-        }
-    }
-
-
-    $filesize = filesize($serverPath);
-
-    //header("Pragma: public"); header("Expires: 0");
-    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-    header("Content-Type: application/force-download");
-    header("Content-Type: {$mimeType}");
-
-    header($attachmentHeader);
-    header('Pragma: cache');
-    header('Cache-Control: public, must-revalidate, max-age=0');
-    header("Content-Length: {$filesize}");
-    readfile($serverPath);
-    exit;
-}
-
-//$data = array(
-//    array( 'a','b','','d'),array( 'e','f','','h')
-//);
-
-//$excel = new XmlExcelExport();
-//$excel->generateXMLHeader("測試");
-//$excel->worksheetStart('s1');
-//$excel->setTableRows($data);
-//$excel->worksheetEnd();
-//$excel->worksheetStart('s2');
-//$excel->setTableRows($data);
-//$excel->worksheetEnd();
-//
-//$excel->generateXMLFoot();

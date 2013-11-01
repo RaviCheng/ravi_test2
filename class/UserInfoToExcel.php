@@ -40,7 +40,6 @@ class UserInfoToExcel
             $objPHPExcel->worksheetEnd();
         }
 
-
         // xml結尾
         $objPHPExcel->generateXMLFoot();
     }
@@ -89,14 +88,16 @@ class UserInfoToExcel
                 LEFT JOIN `TransferUserLevelList` AS `L` ON `M`.`ID` = `L`.`UserId`
                     WHERE `M`.`HALLID` = '{$this->_HallId}' AND `M`.`Id` NOT IN (SELECT `UserId` FROM `TransferUserLevelList` WHERE `LevelId` > 0)
                  ORDER BY `M`.`USERNAME`
-                    LIMIT 10";
+                 LIMIT 10
+                   ";
         } else {
             $sql = "SELECT `M`.`Id` AS `UserId` , `M`.`USERNAME` AS `USERNAME`
                       FROM `MEMBERS_Durian` AS `M`
                  LEFT JOIN `TransferUserLevelList` AS `L` ON `M`.`ID` = `L`.`UserId`
                      WHERE `M`.`HALLID` = '{$this->_HallId}' AND `L`.`LevelId` = '{$LevelId}'
                   ORDER BY `M`.`USERNAME`
-                  LIMIT 10";
+                   LIMIT 10
+                  ";
         }
 
         $this->_db->query($sql);
